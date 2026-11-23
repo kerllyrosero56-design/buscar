@@ -1,14 +1,27 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-function CardProducto({ nombre, precio, stock, imagen, esLicor = false, edadCliente = "", onAgregar }) {
+function CardProducto({
+    id,
+    nombre,
+    categoria,
+    precio = 0,
+    stock = 0,
+    imagen,
+    esLicor = false,
+    edadCliente = "",
+    onAgregar,
+    agregar
+}) {
     const [contador, setContador] = useState(0);
 
+    const precioNum = Number(precio) || 0;
     const edadNum = Number(edadCliente);
     const esMenor = edadCliente !== "" && edadNum < 18;
     const bloqueadoPorEdad = esLicor && esMenor;
 
-    const iva = precio * 0.15;
-    const total = precio + iva;
+    const iva = precioNum * 0.15;
+    const total = precioNum + iva;
 
     let estadoTexto = "";
     let estadoClase = "";
@@ -24,7 +37,7 @@ function CardProducto({ nombre, precio, stock, imagen, esLicor = false, edadClie
         estadoClase = "badge bg-danger";
     }
 
-    const subtotal = precio * contador;
+    const subtotal = precioNum * contador;
     const ivaVistas = subtotal * 0.15;
     const totalVistas = subtotal + ivaVistas;
 
@@ -36,7 +49,10 @@ function CardProducto({ nombre, precio, stock, imagen, esLicor = false, edadClie
         if (contador < stock) {
             setContador(contador + 1);
             if (onAgregar) {
-                onAgregar(nombre, precio, esLicor);
+                onAgregar(nombre, precioNum, esLicor);
+            }
+            if (agregar) {
+                agregar(nombre, precioNum);
             }
         }
     }
@@ -52,8 +68,11 @@ function CardProducto({ nombre, precio, stock, imagen, esLicor = false, edadClie
                 />
             )}
             <div className="card-body">
+                {categoria && (
+                    <span className="badge bg-secondary mb-2">{categoria}</span>
+                )}
                 <h5 className="card-title">{nombre}</h5>
-                <p className="card-text mb-1">Precio: ${precio.toFixed(2)}</p>
+                <p className="card-text mb-1">Precio: ${precioNum.toFixed(2)}</p>
                 <p className="card-text mb-1">IVA: ${iva.toFixed(2)}</p>
                 <p className="card-text mb-2">Total: ${total.toFixed(2)}</p>
 
@@ -68,12 +87,18 @@ function CardProducto({ nombre, precio, stock, imagen, esLicor = false, edadClie
                 )}
 
                 <button
-                    className="btn btn-primary mb-2"
+                    className="btn btn-primary mb-2 w-100"
                     onClick={mostrarProducto}
                     disabled={contador >= stock || bloqueadoPorEdad}
                 >
                     Agregar
                 </button>
+
+                {id && (
+                    <Link to={"/producto/" + id} className="btn btn-link btn-sm w-100 mb-2">
+                        Ver detalle
+                    </Link>
+                )}
 
                 <h5>Cantidad: {contador}</h5>
                 <p className="mb-0">Total: ${totalVistas.toFixed(2)}</p>

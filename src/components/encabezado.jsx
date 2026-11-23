@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 function Encabezado({ titulo }) {
     return (
@@ -10,16 +10,18 @@ function Encabezado({ titulo }) {
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div className="navbar-nav">
-                <Link className="nav-link active" aria-current="page" to="/">Inicio</Link>
-                <Link className="nav-link" to="/productos">Productos</Link>
-                <Link className="nav-link" to="/contactos">Contactos</Link>
-                <Link className="nav-link" to="/compras">Compras</Link>
-                <Link className="nav-link" to="/catalogo">Catalogo</Link>
-                <Link className="nav-link" to="/Ofertas">Ofertas</Link>
+                <NavLink className="nav-link" to="/">Inicio</NavLink>
+                <NavLink className="nav-link" to="/productos">Productos</NavLink>
+                <NavLink className="nav-link" to="/contactos">Contactos</NavLink>
+                <NavLink className="nav-link" to="/compras">Compras</NavLink>
+                <NavLink className="nav-link" to="/catalogo">Catalogo</NavLink>
+                <NavLink className="nav-link" to="/Ofertas">Ofertas</NavLink>
+                <NavLink className="nav-link" to="/buscar">Buscar</NavLink>
               </div>
             </div>
           </div>
         </nav>
     );
 }
+
 export default Encabezado;

@@ -13,11 +13,10 @@ function TarjetaOferta({
 
     const precioDescuento = precio * (descuento / 100);
     const precioFinal = precio - precioDescuento;
-    const iva = precioFinal * 0.15; 
+    const iva = precioFinal * 0.15;
     const totalUnitario = precioFinal + iva;
     const totalAcumulado = totalUnitario * contador;
 
-    // tarjetas
     let estadoTexto = "";
     let estadoClase = "";
 
@@ -35,6 +34,8 @@ function TarjetaOferta({
     const etiquetaDescuento = descuento >= 10 ? "Gran oferta" : "Oferta";
     const etiquetaClase = descuento >= 10 ? "badge bg-danger" : "badge bg-secondary";
 
+    const ahorroTotal = (precio - precioFinal) * contador;
+
     function mostrarProducto() {
         if (contador < stock && !bloqueadoPorEdad) {
             setContador((prev) => prev + 1);
@@ -44,12 +45,17 @@ function TarjetaOferta({
         }
     }
 
-    // ahorro
-    const ahorroTotal = (precio - precioFinal) * contador;
-
     return (
         <div className="card m-2" style={{ width: "18rem" }}>
-           
+            {imagen && (
+                <img
+                    src={imagen}
+                    alt={nombre}
+                    className="card-img-top p-2"
+                    style={{ height: "180px", objectFit: "contain" }}
+                />
+            )}
+
             <div className="card-body">
                 <div className="d-flex justify-content-between align-items-start mb-2">
                     <h5 className="card-title mb-0">{nombre}</h5>
@@ -79,6 +85,11 @@ function TarjetaOferta({
                     </span>
                 </p>
 
+                {bloqueadoPorEdad && (
+                    <p className="text-danger small fw-bold mb-2">
+                        Prohibido para menores de 18 años
+                    </p>
+                )}
 
                 <button
                     className="btn btn-primary mb-3 w-100"
